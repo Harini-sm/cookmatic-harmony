@@ -54,17 +54,17 @@ const Login: React.FC = () => {
           // Set user as logged in
           localStorage.setItem('isLoggedIn', 'true');
           toast.success("Login successful!");
-          setIsSubmitting(false);
+          
           // Redirect to home page after successful login
           navigate('/');
         } else {
           toast.error("Invalid email or password");
-          setIsSubmitting(false);
         }
       } else {
         toast.error("User not found. Please sign up first.");
-        setIsSubmitting(false);
       }
+      
+      setIsSubmitting(false);
     }, 1500);
   };
   
