@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Package, Utensils, HeartPulse, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -26,6 +27,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   const controls = useAnimation();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (inView) {
@@ -59,7 +61,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         <Button 
           variant="outline" 
           className="group justify-between w-fit ml-auto text-white border-white/30 bg-black/30 backdrop-blur-sm hover:bg-white/10"
-          onClick={() => window.location.href = link}
+          onClick={() => navigate(link)}
         >
           <span>{buttonText}</span>
           <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

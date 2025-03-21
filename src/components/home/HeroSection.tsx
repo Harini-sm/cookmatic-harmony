@@ -3,24 +3,64 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+
+// Image slideshow data
+const heroImages = [
+  "https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=2070&auto=format&fit=crop"
+];
 
 const HeroSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
+
+    // Set up image slideshow
+    const slideInterval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 6000);
+
+    return () => clearInterval(slideInterval);
   }, []);
+
+  // Variants for slide transition
+  const slideVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 }
+  };
+
+  const handleGenerateRecipe = () => {
+    navigate('/pantry-prodigy');
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Background Image with Slideshow */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background z-10"></div>
-        <img
-          src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=2070&auto=format&fit=crop"
-          alt="Food Background"
-          className="w-full h-full object-cover"
-        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-background z-10"></div>
+        {heroImages.map((image, index) => (
+          <motion.div
+            key={index}
+            className="absolute inset-0"
+            initial="hidden"
+            animate={currentImageIndex === index ? "visible" : "hidden"}
+            variants={slideVariants}
+            transition={{ duration: 1.5 }}
+          >
+            <img
+              src={image}
+              alt={`Food Background ${index + 1}`}
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
+        ))}
       </div>
 
       <div className="container mx-auto px-4 md:px-6 z-10 pt-20 md:pt-0">
@@ -59,7 +99,11 @@ const HeroSection: React.FC = () => {
             animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <Button size="lg" className="group rounded-full px-6 py-6 text-base">
+            <Button 
+              size="lg" 
+              className="group rounded-full px-6 py-6 text-base"
+              onClick={handleGenerateRecipe}
+            >
               Generate Your Recipe Now
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>

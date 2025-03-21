@@ -6,6 +6,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import PantryProdigy from "./pages/PantryProdigy";
+import PlateProdigy from "./pages/PlateProdigy";
+import NutrientProdigy from "./pages/NutrientProdigy";
+import About from "./pages/About";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -17,9 +23,12 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/pantry-prodigy" element={<NotFound />} /> {/* Placeholder for now */}
-          <Route path="/plate-prodigy" element={<NotFound />} /> {/* Placeholder for now */}
-          <Route path="/nutrient-prodigy" element={<NotFound />} /> {/* Placeholder for now */}
+          <Route path="/pantry-prodigy" element={<PantryProdigy />} />
+          <Route path="/plate-prodigy" element={<PlateProdigy />} />
+          <Route path="/nutrient-prodigy" element={<NutrientProdigy />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
