@@ -32,7 +32,7 @@ const HeroSection: React.FC = () => {
             className="mb-3"
           >
             <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-2">
-              The Smart Way to Find Recipes
+              CookAI – From Pantry to Plate, Instantly!
             </span>
           </motion.div>
 
@@ -42,7 +42,7 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
           >
-            AI-Powered Cooking Made Easy!
+            CookAI – From Pantry to Plate, Instantly!
           </motion.h1>
 
           <motion.p
@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl"
           >
-            Discover personalized recipes based on your ingredients, taste preferences, and nutritional goals with our advanced AI technology.
+            Discover, Cook, Savor
           </motion.p>
 
           <motion.div

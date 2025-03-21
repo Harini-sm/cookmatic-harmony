@@ -17,6 +17,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/pantry-prodigy" element={<NotFound />} /> {/* Placeholder for now */}
+          <Route path="/plate-prodigy" element={<NotFound />} /> {/* Placeholder for now */}
+          <Route path="/nutrient-prodigy" element={<NotFound />} /> {/* Placeholder for now */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
