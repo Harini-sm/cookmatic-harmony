@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
 import { Check, ChevronDown, ChevronUp } from "lucide-react"
@@ -144,6 +145,36 @@ const SelectSeparator = React.forwardRef<
 ))
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName
 
+// Create a custom select component that accepts options and placeholder
+interface ExtendedSelectProps {
+  placeholder?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
+  options?: { value: string; label: string }[];
+  className?: string;
+}
+
+const CustomSelect = React.forwardRef<
+  React.ElementRef<typeof SelectTrigger>,
+  ExtendedSelectProps
+>(({ placeholder, value, onValueChange, options = [], className }, ref) => {
+  return (
+    <Select value={value} onValueChange={onValueChange}>
+      <SelectTrigger ref={ref} className={className}>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent>
+        {options.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+});
+CustomSelect.displayName = "CustomSelect";
+
 export {
   Select,
   SelectGroup,
@@ -155,4 +186,5 @@ export {
   SelectSeparator,
   SelectScrollUpButton,
   SelectScrollDownButton,
+  CustomSelect as Select,
 }
