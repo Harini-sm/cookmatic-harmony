@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,8 @@ import Footer from '@/components/layout/Footer';
 import { toast } from 'sonner';
 
 const Signup: React.FC = () => {
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -57,9 +59,21 @@ const Signup: React.FC = () => {
     
     // Simulate signup attempt
     setTimeout(() => {
-      toast.success("Account created successfully!");
+      // Store user data in localStorage for demo purposes
+      const userData = {
+        username: formData.username,
+        email: formData.email,
+        favorites: [],
+        fullName: '',
+        favoriteCuisine: '',
+      };
+      
+      localStorage.setItem('userData', JSON.stringify(userData));
+      
+      toast.success("Account created successfully! Please log in now.");
       setIsSubmitting(false);
-      // In a real app, we would redirect to the login page or dashboard after successful signup
+      // Redirect to login page after successful signup
+      navigate('/login');
     }, 1500);
   };
   

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,8 @@ import Footer from '@/components/layout/Footer';
 import { toast } from 'sonner';
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -40,11 +42,29 @@ const Login: React.FC = () => {
       return;
     }
     
-    // Simulate login attempt
+    // Simulate login attempt - check if user exists in localStorage
     setTimeout(() => {
-      toast.success("Login successful!");
-      setIsSubmitting(false);
-      // In a real app, we would redirect to the dashboard or home page after successful login
+      const storedUserData = localStorage.getItem('userData');
+      
+      if (storedUserData) {
+        const userData = JSON.parse(storedUserData);
+        
+        if (userData.email === formData.email) {
+          // In a real app, we would validate the password too
+          // Set user as logged in
+          localStorage.setItem('isLoggedIn', 'true');
+          toast.success("Login successful!");
+          setIsSubmitting(false);
+          // Redirect to home page after successful login
+          navigate('/');
+        } else {
+          toast.error("Invalid email or password");
+          setIsSubmitting(false);
+        }
+      } else {
+        toast.error("User not found. Please sign up first.");
+        setIsSubmitting(false);
+      }
     }, 1500);
   };
   
