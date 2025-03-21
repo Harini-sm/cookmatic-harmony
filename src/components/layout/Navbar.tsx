@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ChevronDown, 
   Menu, 
   X, 
-  Fridge, 
+  Package, 
   Utensils, 
   HeartPulse, 
   LogIn, 
@@ -63,7 +62,7 @@ const Navbar: React.FC = () => {
                     className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-secondary transition-all"
                     onClick={() => setIsDropdownOpen(false)}
                   >
-                    <Fridge className="w-4 h-4" />
+                    <Package className="w-4 h-4" />
                     <div>
                       <span className="font-medium">Pantry Prodigy</span>
                       <p className="text-xs text-muted-foreground">Cook with what you have</p>
@@ -150,7 +149,7 @@ const Navbar: React.FC = () => {
                 className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-secondary transition-all"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <Fridge className="w-4 h-4" />
+                <Package className="w-4 h-4" />
                 <div>
                   <span>Pantry Prodigy</span>
                   <p className="text-xs text-muted-foreground">Cook with what you have</p>

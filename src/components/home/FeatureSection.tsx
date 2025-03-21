@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import { Fridge, Utensils, HeartPulse, ArrowRight } from 'lucide-react';
+import { Package, Utensils, HeartPulse, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface FeatureCardProps {
@@ -16,7 +16,7 @@ interface FeatureCardProps {
 const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, buttonText, link, delay }) => {
   const controls = useAnimation();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, threshold: 0.1 });
+  const inView = useInView(ref, { once: true });
 
   useEffect(() => {
     if (inView) {
@@ -50,7 +50,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, but
 const FeatureSection: React.FC = () => {
   const controls = useAnimation();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, threshold: 0.1 });
+  const inView = useInView(ref, { once: true });
 
   useEffect(() => {
     if (inView) {
@@ -76,7 +76,7 @@ const FeatureSection: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <FeatureCard
-            icon={<Fridge className="w-6 h-6" />}
+            icon={<Package className="w-6 h-6" />}
             title="Pantry Prodigy"
             description="Generate recipes using ingredients available in your pantry. Simply input what you have, and let our AI do the rest."
             buttonText="Explore Pantry Prodigy"
