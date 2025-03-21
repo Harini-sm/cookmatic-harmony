@@ -175,8 +175,9 @@ const CustomSelect = React.forwardRef<
 });
 CustomSelect.displayName = "CustomSelect";
 
+// Fix the exports - Export the base components but use CustomSelect as the main Select
 export {
-  Select,
+  Select as BaseSelect, // Rename the original Select to BaseSelect to avoid conflicts
   SelectGroup,
   SelectValue,
   SelectTrigger,
@@ -186,5 +187,5 @@ export {
   SelectSeparator,
   SelectScrollUpButton,
   SelectScrollDownButton,
-  CustomSelect as Select,
+  CustomSelect as Select, // Export CustomSelect as Select for consumers to use
 }
