@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { ShareIcon, Copy, MessageSquare, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, Tabslist, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 
 interface RecipeShareProps {
@@ -57,11 +56,11 @@ const RecipeShare: React.FC<RecipeShareProps> = ({ recipeTitle, recipeId }) => {
         </DialogHeader>
         
         <Tabs defaultValue="link" className="mt-4">
-          <Tabslist className="grid grid-cols-3 mb-4">
+          <TabsList className="grid grid-cols-3 mb-4">
             <TabsTrigger value="link">Copy Link</TabsTrigger>
             <TabsTrigger value="whatsapp">WhatsApp</TabsTrigger>
             <TabsTrigger value="sms">SMS</TabsTrigger>
-          </Tabslist>
+          </TabsList>
           
           <TabsContent value="link" className="space-y-4">
             <div className="flex items-center space-x-2">
