@@ -66,6 +66,20 @@ const Navbar: React.FC = () => {
     navigate('/login');
   };
 
+  const handleNavigateToProfile = (section: string = '') => {
+    // Close mobile menu if open
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+    }
+    
+    // Navigate to the profile page with the appropriate tab
+    if (section) {
+      navigate(`/profile?tab=${section}`);
+    } else {
+      navigate('/profile');
+    }
+  };
+
   return (
     <nav 
       className={cn(
@@ -161,15 +175,15 @@ const Navbar: React.FC = () => {
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                <DropdownMenuItem onClick={() => handleNavigateToProfile('profile')}>
                   <User className="mr-2 h-4 w-4" />
                   My Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                <DropdownMenuItem onClick={() => handleNavigateToProfile('favorites')}>
                   <Heart className="mr-2 h-4 w-4" />
                   Favorites
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                <DropdownMenuItem onClick={() => handleNavigateToProfile('settings')}>
                   <Settings className="mr-2 h-4 w-4" />
                   Settings
                 </DropdownMenuItem>
@@ -205,7 +219,7 @@ const Navbar: React.FC = () => {
               variant="ghost" 
               size="icon" 
               className="mr-1"
-              onClick={() => navigate('/profile')}
+              onClick={() => handleNavigateToProfile()}
             >
               <Avatar className="h-8 w-8">
                 <AvatarFallback className="text-xs font-medium">
@@ -283,28 +297,31 @@ const Navbar: React.FC = () => {
             
             {isLoggedIn ? (
               <div className="space-y-2 pt-2">
-                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full justify-start">
-                    <User className="mr-2 w-4 h-4" /> My Profile
-                  </Button>
-                </Link>
-                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Heart className="mr-2 w-4 h-4" /> Favorites
-                  </Button>
-                </Link>
-                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Settings className="mr-2 w-4 h-4" /> Settings
-                  </Button>
-                </Link>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => handleNavigateToProfile('profile')}
+                >
+                  <User className="mr-2 w-4 h-4" /> My Profile
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => handleNavigateToProfile('favorites')}
+                >
+                  <Heart className="mr-2 w-4 h-4" /> Favorites
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => handleNavigateToProfile('settings')}
+                >
+                  <Settings className="mr-2 w-4 h-4" /> Settings
+                </Button>
                 <Button 
                   variant="destructive" 
                   className="w-full justify-start" 
-                  onClick={() => {
-                    handleLogout();
-                    setIsMobileMenuOpen(false);
-                  }}
+                  onClick={handleLogout}
                 >
                   <LogOut className="mr-2 w-4 h-4" /> Logout
                 </Button>

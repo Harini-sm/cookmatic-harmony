@@ -51,6 +51,12 @@ const Login: React.FC = () => {
         
         if (userData.email === formData.email) {
           // In a real app, we would validate the password too
+          // Make sure user data has the favorites array
+          if (!userData.favorites) {
+            userData.favorites = [];
+            localStorage.setItem('userData', JSON.stringify(userData));
+          }
+          
           // Set user as logged in
           localStorage.setItem('isLoggedIn', 'true');
           toast.success("Login successful!");

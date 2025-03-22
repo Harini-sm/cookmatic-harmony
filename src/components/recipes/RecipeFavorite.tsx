@@ -15,7 +15,12 @@ const RecipeFavorite: React.FC<RecipeFavoriteProps> = ({ recipeId, recipeTitle, 
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   
+  // Check favorite status whenever localStorage might change
   useEffect(() => {
+    checkFavoriteStatus();
+  }, [recipeId]);
+  
+  const checkFavoriteStatus = () => {
     // Check if user is logged in
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     
@@ -31,7 +36,7 @@ const RecipeFavorite: React.FC<RecipeFavoriteProps> = ({ recipeId, recipeTitle, 
         setIsFavorite(exists);
       }
     }
-  }, [recipeId]);
+  };
   
   const toggleFavorite = () => {
     // Check if user is logged in

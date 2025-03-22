@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -41,6 +41,7 @@ interface UserData {
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -54,6 +55,17 @@ const Profile: React.FC = () => {
     newPassword: '',
     confirmPassword: '',
   });
+
+  // Get the active tab from URL query parameter
+  const searchParams = new URLSearchParams(location.search);
+  const initialTab = searchParams.get('tab') || 'profile';
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  // Update the URL when tab changes
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    navigate(`/profile?tab=${value}`, { replace: true });
+  };
 
   useEffect(() => {
     // Check if user is logged in
@@ -151,6 +163,22 @@ const Profile: React.FC = () => {
     toast.success("Logged out successfully!");
     navigate('/login');
   };
+
+  // Handle removing a recipe from favorites
+  const handleRemoveFavorite = (recipeId: string) => {
+    if (userData) {
+      const updatedFavorites = userData.favorites.filter(recipe => recipe.id !== recipeId);
+      const updatedUserData = {
+        ...userData,
+        favorites: updatedFavorites
+      };
+      
+      localStorage.setItem('userData', JSON.stringify(updatedUserData));
+      setUserData(updatedUserData);
+      
+      toast.success("Recipe removed from favorites");
+    }
+  };
   
   if (isLoading) {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
@@ -160,7 +188,7 @@ const Profile: React.FC = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-grow container mx-auto py-8 px-4">
+      <main className="flex-grow container mx-auto py-20 px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -182,15 +210,27 @@ const Profile: React.FC = () => {
             </Card>
             
             <div className="flex flex-col space-y-2">
-              <Button variant="ghost" className="justify-start" onClick={() => navigate('/profile')}>
+              <Button 
+                variant={activeTab === 'profile' ? "default" : "ghost"} 
+                className="justify-start"
+                onClick={() => handleTabChange('profile')}
+              >
                 <User className="mr-2 h-4 w-4" />
                 My Profile
               </Button>
-              <Button variant="ghost" className="justify-start" onClick={() => navigate('/profile/favorites')}>
+              <Button 
+                variant={activeTab === 'favorites' ? "default" : "ghost"} 
+                className="justify-start"
+                onClick={() => handleTabChange('favorites')}
+              >
                 <Heart className="mr-2 h-4 w-4" />
                 Favorites
               </Button>
-              <Button variant="ghost" className="justify-start" onClick={() => navigate('/profile')}>
+              <Button 
+                variant={activeTab === 'settings' ? "default" : "ghost"} 
+                className="justify-start"
+                onClick={() => handleTabChange('settings')}
+              >
                 <Settings className="mr-2 h-4 w-4" />
                 Settings
               </Button>
@@ -202,7 +242,7 @@ const Profile: React.FC = () => {
           </div>
           
           <div>
-            <Tabs defaultValue="profile">
+            <Tabs value={activeTab} onValueChange={handleTabChange}>
               <TabsList className="mb-4">
                 <TabsTrigger value="profile">Profile</TabsTrigger>
                 <TabsTrigger value="favorites">Favorites</TabsTrigger>
@@ -298,7 +338,12 @@ const Profile: React.FC = () => {
                                 <Button variant="outline" size="sm">
                                   View Recipe
                                 </Button>
-                                <Button variant="ghost" size="sm" className="text-destructive">
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm" 
+                                  className="text-destructive"
+                                  onClick={() => handleRemoveFavorite(recipe.id)}
+                                >
                                   <Heart className="h-4 w-4 fill-current" />
                                 </Button>
                               </div>
