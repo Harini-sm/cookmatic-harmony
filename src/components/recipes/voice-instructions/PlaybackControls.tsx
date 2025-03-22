@@ -26,9 +26,9 @@ const PlaybackControls: React.FC<PlaybackControlsProps> = ({
           Pause
         </Button>
       ) : (
-        <Button variant="outline" size="sm" onClick={onResume}>
+        <Button variant="outline" size="sm" onClick={isPlaying ? onResume : onStart}>
           <Play className="h-4 w-4 mr-2" />
-          Resume
+          {isPlaying ? "Resume" : "Play"}
         </Button>
       )}
       <Button variant="default" size="sm" onClick={onStart}>

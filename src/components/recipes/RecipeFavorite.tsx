@@ -15,43 +15,53 @@ const RecipeFavorite: React.FC<RecipeFavoriteProps> = ({ recipeId, recipeTitle, 
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   
-  // Check favorite status whenever localStorage might change
+  // Check favorite status on mount and when recipeId changes
   useEffect(() => {
     checkFavoriteStatus();
   }, [recipeId]);
   
   const checkFavoriteStatus = () => {
-    // Check if user is logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    
-    if (isLoggedIn) {
-      // Check if recipe is in favorites
-      const userData = localStorage.getItem('userData');
+    try {
+      // Check if user is logged in
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
       
-      if (userData) {
-        const parsedUserData = JSON.parse(userData);
-        const favorites = parsedUserData.favorites || [];
+      if (isLoggedIn) {
+        // Check if recipe is in favorites
+        const userData = localStorage.getItem('userData');
         
-        const exists = favorites.some((recipe: { id: string }) => recipe.id === recipeId);
-        setIsFavorite(exists);
+        if (userData) {
+          const parsedUserData = JSON.parse(userData);
+          const favorites = parsedUserData.favorites || [];
+          
+          const exists = favorites.some((recipe: { id: string }) => recipe.id === recipeId);
+          setIsFavorite(exists);
+        }
       }
+    } catch (error) {
+      console.error("Error checking favorite status:", error);
     }
   };
   
   const toggleFavorite = () => {
-    // Check if user is logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    
-    if (!isLoggedIn) {
-      toast.error("Please log in to add recipes to favorites");
-      navigate('/login');
-      return;
-    }
-    
-    // Get user data from localStorage
-    const userData = localStorage.getItem('userData');
-    
-    if (userData) {
+    try {
+      // Check if user is logged in
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      
+      if (!isLoggedIn) {
+        toast.error("Please log in to add recipes to favorites");
+        navigate('/login');
+        return;
+      }
+      
+      // Get user data from localStorage
+      let userData = localStorage.getItem('userData');
+      
+      if (!userData) {
+        // Initialize user data if it doesn't exist
+        userData = JSON.stringify({ favorites: [] });
+        localStorage.setItem('userData', userData);
+      }
+      
       const parsedUserData = JSON.parse(userData);
       let favorites = parsedUserData.favorites || [];
       
@@ -75,6 +85,15 @@ const RecipeFavorite: React.FC<RecipeFavoriteProps> = ({ recipeId, recipeTitle, 
       
       // Update state
       setIsFavorite(!isFavorite);
+      
+      // Dispatch event for Profile page to update
+      const event = new CustomEvent('favoritesUpdated', { 
+        detail: { favorites: parsedUserData.favorites } 
+      });
+      window.dispatchEvent(event);
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
   
