@@ -114,7 +114,7 @@ const VoiceInstructions: React.FC<VoiceInstructionsProps> = ({
         speechSynthesis.speak(utterance);
       } else {
         // If Tamil voice is not available, just continue with next English instruction
-        toast.warning("Tamil voice not available on your device");
+        toast.warning("Tamil voice not available on your device. Check browser speech settings.");
         speakEnglish(index + 1);
       }
     };
